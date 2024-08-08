@@ -1,0 +1,42 @@
+.Modal {
+    height: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    position: absolute;
+    left: 50%;
+    width: 100%;
+    max-width: 1552px;
+    /* height: 1532px; */
+    background-color: #FFFFFF;
+    transform: translate(-50%, 0);
+    position: absolute;
+    color: white;
+    padding: 50px;
+    text-align: center;
+    box-shadow: 0px 0px 7px #666666;
+    border-radius: 20px;
+
+}
+
+.Overlay {
+    position: fixed;
+    overflow-y: auto;
+    inset: 0px;
+    z-index: 12;
+    background-color: #00000069;
+
+}
+
+@media only screen and (max-width: 360px) {
+    .Modal {
+        width: 100%;
+
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .Modal {
+        width: 100%;
+
+    }
+}

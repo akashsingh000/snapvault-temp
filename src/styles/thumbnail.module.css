@@ -1,0 +1,12 @@
+.thumbnail-overlay {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+    z-index: 2;
+    background-image: "linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0) 100%)";
+}
+
+.thumbnail-overlay:hover {
+    visibility: visible;
+    opacity: 1;
+}

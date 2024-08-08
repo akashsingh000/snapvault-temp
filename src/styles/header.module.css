@@ -1,0 +1,11 @@
+.category-slider {
+    width: 100%;
+}
+
+.category-slider {
+    position: relative;
+}
+
+.category-slider:after {
+    background: linear-gradient(to right, rgba(247, 247, 49, 1) 0%, rgba(255, 255, 255, 0) 69%);
+}
