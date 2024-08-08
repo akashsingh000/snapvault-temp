@@ -41,7 +41,7 @@ const ArticlePage = (props) => {
             overlayClassName={styles.Overlay}
 
           >
-            <button onClick={() => router.back()} className='fixed lg:right-[-71px] sm:right-[16px] w-[48px] h-[48px] rounded-[100px] top-[15px] bg-[#000000b8]'>
+            <button onClick={() => router.back()} className='fixed lg:right-[-71px] sm:right-[16px] p-[12px] rounded-[100px] top-[15px] bg-[#000000b8]'>
               <PostImage src={CloseIcon} alt="close" width={32} height={32} />
             </button>
             <Article pathname={router.pathname} data={props.data} />
