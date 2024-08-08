@@ -1,22 +1,49 @@
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import Link from 'next/link'
 import PostImage from './ui-elements/PostImage'
 import Download from "../assets/images/downloadIcon.svg"
 import PhotosIcon from "../assets/images/photosIconWhite.svg"
 import { LikeIcon } from './ui-elements/svgs'
 import useResponsive from 'components/hooks/useResponsive'
 import { categoryList } from './headerLayout'
-import Link from 'next/link'
+import { setPageLoading } from 'components/redux/slices/imageListSlice'
+import { ContentLoader } from './ui-elements/dataLoader'
+
 const Post = ({ data }) => {
   const router = useRouter();
-  const [like, setLike] = useState(false)
+  const [like, setLike] = useState(false);
   const { query } = router;
-  const { isMobileOrTablet } = useResponsive()
+  const { isMobileOrTablet } = useResponsive();
+  const { status } = useSelector(store => store.photos);
+  const dispatch = useDispatch()
 
+  const downloadImage = useCallback(async (url, filename) => {
+    if (url && filename) {
+      await axios.post("/api/image-download", { image: url, filename }).then((data) => {
+        if (data.status === 200) {
+          const downloadLink = document.createElement("a");
+          downloadLink.href = data.data.image; //URL.createObjectURL(blob);
+          downloadLink.download = filename;
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+          toast.success("Image downloaded successfully.")
+        }
+
+      }).catch((err) => {
+        toast.error(err.message)
+      })
+    }
+  }, [])
 
   return data && (
     <div className={query.modal === "true" ? 'lg:w-[1452px]' : 'lg:max-w-[1288px] w-full pb-[50px] mx-auto'}>
+      <ContentLoader loading={status === "loading"} />
       <div className='flex md:flex-nowrap sm:flex-wrap items-center gap-[20px] justify-between' >
         <div className="flex w-full justify-between items-center">
           <div className={`font-sans font-semibold md:text-[28px] text-left sm:leading-[16px] w-full md:leading-[28px] sm:text-[16px] lg:text-[28px] lg:leading-[38px] text-black`}>{data.title}</div>
@@ -25,7 +52,11 @@ const Post = ({ data }) => {
           </button>
         </div>
         <div className='lg:w-[141px] sm:w-full md:w-[auto]'>
-          <button className='flex items-center gap-[8px] bg-primary justify-center  lg:mt-0 sm:mt-[16px] rounded-[88px] px-[20px] py-[12px]'>
+          <button onClick={() => {
+            downloadImage(data.url, data.title.replace(/ /g, "-")).then((data) => {
+              dispatch(setPageLoading("succeeded"));
+            })
+          }} className='flex items-center gap-[8px] bg-primary justify-center  lg:mt-0 sm:mt-[16px] rounded-[88px] px-[20px] py-[12px]'>
             <PostImage alt="download_icon" src={Download} width={20} height={20} />
             <div className='text-white font-sans leading-[22px] text-[16px] font-medium'>Download</div>
           </button>
