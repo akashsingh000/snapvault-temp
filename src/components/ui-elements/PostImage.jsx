@@ -7,7 +7,8 @@ const ImageWrap = styled.span`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
   & > div {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px;
@@ -17,7 +18,7 @@ const ImageWrap = styled.span`
 const PostImage = ({ alt, src, width, height, h, pos }) => {
 
   return (
-    <ImageWrap>
+    <ImageWrap {...{ width, height }}>
       <Image
         alt={alt}
         src={src}
@@ -25,7 +26,7 @@ const PostImage = ({ alt, src, width, height, h, pos }) => {
         height={height}
         quality={70}
         priority={true}
-        className={`w-[${width}px] h-[${h === true ? height : "auto"}px] object-cover`}
+      // className={`w-[${width}px] h-[${h === true ? height : "auto"}px] object-cover`}
       // onLoadingComplete={() => setLoaded(true)}
       />
       {/* {!loaded && (
