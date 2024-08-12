@@ -10,11 +10,20 @@ import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { LikeIcon } from './ui-elements/svgs';
 const Thumbnail = (props) => {
-    const { img, dispatch, setPageLoading, downloadImage } = props;
+    const { img, dispatch, setPageLoading, downloadImage, sessionStatus, onOpen } = props;
     const [hover, setHover] = useState(false);
     const namedRoute = img.title.replace(/ /g, "-");
     const [like, setLike] = useState(true)
-    const router = useRouter()
+
+    const handleLike = () => {
+        if (sessionStatus.status !== "authenticated") {
+            onOpen()
+        } else {
+            setLike(p => !p)
+        }
+    }
+
+
     return (
         <div
             onMouseEnter={() => { setHover(true) }}
@@ -56,7 +65,7 @@ const Thumbnail = (props) => {
                     <PostImage alt="Photos-Icon" src={PhotosIcon} width={20} height={20} />
                     <div className='text-white font-sans leading-[22px] text-[16px] font-medium'>Photos</div>
                 </button>
-                <button onClick={() => setLike(p => !p)} className='z-[1] top-[20px] right-[20px] rounded-[88px] items-center gap-[4px] '>
+                <button onClick={handleLike} className='z-[1] top-[20px] right-[20px] rounded-[88px] items-center gap-[4px] '>
                     <LikeIcon color={like == true ? "#00000080" : "#E32124"} />
                 </button>
             </div>}

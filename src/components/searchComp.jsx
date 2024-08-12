@@ -13,11 +13,18 @@ import { decrement, increment, setPageLoading } from 'components/redux/slices/im
 import { ContentLoader } from './ui-elements/dataLoader';
 import Thumbnail from './thumbnail';
 import { reactStyles } from 'components/helpers';
+import LoginModal from './loginModal';
+import { useSession } from 'next-auth/react';
 const SearchComp = (props) => {
     const dispatch = useDispatch();
     const { photos, status } = useSelector(store => store.photos);
+    const [isOpen, setIsOpen] = useState(false);
+    const sessionStatus = useSession()
     const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
+
+    const onOpen = () => setIsOpen(true)
+    const onClose = () => setIsOpen(false)
     const pageInput = (number) => {
         setCurrentPage(number)
     }
@@ -95,7 +102,7 @@ const SearchComp = (props) => {
                     <div className="grid lg:grid-cols-3 gap-[32px] md:grid-cols-2 m-auto w-full sm:grid-cols-1">
                         {photos.map((img, index) => {
                             return (
-                                <Thumbnail key={img.id} {...{ index, img, dispatch, setPageLoading, downloadImage }} />
+                                <Thumbnail key={img.id} {...{ index, img, dispatch, setPageLoading, downloadImage, sessionStatus, onOpen }} />
                             )
                         })
                         }
@@ -103,6 +110,7 @@ const SearchComp = (props) => {
                 </div>
             </div>
             <Pagiantion {...{ onPagePlus, onPageMinus, currentPage, pageInput, setCurrentPage }} />
+            <LoginModal {...{ isOpen, onClose }} />
         </HeaderLayout >
     )
 }

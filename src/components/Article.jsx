@@ -13,14 +13,21 @@ import useResponsive from 'components/hooks/useResponsive'
 import { categoryList } from './headerLayout'
 import { setPageLoading } from 'components/redux/slices/imageListSlice'
 import { ContentLoader } from './ui-elements/dataLoader'
+import LoginModal from './loginModal'
+import { useSession } from 'next-auth/react'
 
 const Post = ({ data }) => {
   const router = useRouter();
+  const sessionData = useSession()
   const [like, setLike] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { query } = router;
   const { isMobileOrTablet } = useResponsive();
   const { status } = useSelector(store => store.photos);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const onOpen = () => setIsOpen(true)
+  const onClose = () => setIsOpen(false)
 
   const downloadImage = useCallback(async (url, filename) => {
     if (url && filename) {
@@ -41,14 +48,22 @@ const Post = ({ data }) => {
     }
   }, [])
 
+  const handleLike = () => {
+    if (sessionData.status !== "authenticated") {
+      onOpen()
+    } else (
+      setLike(p => !p)
+    )
+  }
+
   return data && (
     <div className={query.modal === "true" ? 'lg:w-[1452px]' : 'lg:max-w-[1288px] w-full pb-[50px] mx-auto'}>
       <ContentLoader loading={status === "loading"} />
       <div className='flex md:flex-nowrap sm:flex-wrap items-center gap-[20px] justify-between' >
         <div className="flex w-full justify-between items-center">
           <div className={`font-sans font-semibold md:text-[28px] text-left sm:leading-[16px] w-full md:leading-[28px] sm:text-[16px] lg:text-[28px] lg:leading-[38px] text-black`}>{data.title}</div>
-          <button onClick={() => setLike(p => !p)} className='z-[1] boreder-5 border-red-50 top-[20px] right-[20px] rounded-[88px] items-center gap-[4px] px-[12px] py-[8px]'>
-            <LikeIcon color={like == true ? "#00000080" : "#E32124"} />
+          <button onClick={handleLike} className='z-[1] boreder-5 border-red-50 top-[20px] right-[20px] rounded-[88px] items-center gap-[4px] px-[12px] py-[8px]'>
+            <LikeIcon color={like !== true ? "#00000080" : "#E32124"} />
           </button>
         </div>
         <div className='lg:w-[141px] sm:w-full md:w-[auto]'>
@@ -92,6 +107,7 @@ const Post = ({ data }) => {
         <div className='pt-[30px] font-sans text-[18px] leading-[21.6px] font-medium text-black'>Source name: <span className='text-[#666666] font-normal'>Shutterstock</span></div>
         <div className='pt-[10px] font-sans text-[18px] leading-[21.6px] font-medium text-black'>Source Id: <span className='text-primary font-normal underline'><Link href="/">2360790443</Link></span></div>
       </div>
+      <LoginModal {...{ isOpen, onClose }} />
     </div >
   )
 }

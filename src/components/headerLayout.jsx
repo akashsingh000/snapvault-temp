@@ -1,7 +1,10 @@
+'use client'
+
 import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import PostImage from './ui-elements/PostImage';
 import Logo from "../assets/images/sv-logo.png";
 import Cancel from "../assets/images/cancel.svg"
@@ -16,6 +19,7 @@ import useOutsideClick from 'components/hooks/useOutsideClick';
 import useAsyncState from 'components/hooks/asyncUseState';
 const HeaderLayout = ({ children, showSearch }) => {
     const [search, setSearch] = useAsyncState("");
+    const { data: status } = useSession();
     const { category } = useSelector(store => store.photos);
     const [showDropdown, setShowDropdown] = useState(false)
     const [arrowDisable, setArrowDisable] = useState(true);
@@ -118,10 +122,15 @@ const HeaderLayout = ({ children, showSearch }) => {
                                 </div>}
                             </div>
                         }
-                        <div className='border-1 flex flex-nowrap border-b border-solid border-[#E32124] pb-[4px]  items-center gap-[4px]'>
-                            <div className='sm:hidden lg:block md:block text-[#E32124] font-sans text-[18px] font-medium leading-[21.6px]'>Login</div>
-                            <PostImage alt="login-icon" src={LoginIcon} width={24} height={24} />
-                        </div>
+                        {status !== "authenticated"
+                            ? <button onClick={() => { signIn("google") }} className='border-1 flex flex-nowrap border-b border-solid border-[#E32124] pb-[4px]  items-center gap-[4px]'>
+                                <div className='sm:hidden lg:block md:block text-[#E32124] font-sans text-[18px] font-medium leading-[21.6px]'>Login</div>
+                                <PostImage alt="login-icon" src={LoginIcon} width={24} height={24} />
+                            </button>
+                            : <button onClick={() => { signOut({ redirect: false }).then(() => router.push("/")); }} className='border-1 flex flex-nowrap border-b border-solid border-[#E32124] pb-[4px]  items-center gap-[4px]'>
+                                <div className='sm:hidden lg:block md:block text-[#E32124] font-sans text-[18px] font-medium leading-[21.6px]'>Logout</div>
+                                <PostImage alt="login-icon" src={LoginIcon} width={24} height={24} />
+                            </button>}
                     </div>
                 </div>
                 {showSearch && <div className='py-[30px]'>

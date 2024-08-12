@@ -6,6 +6,7 @@ import { wrapper } from "components/redux";
 import { ContentLoader } from "components/components/ui-elements/dataLoader";
 import '../styles/globals.css';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthProvider from "components/components/AuthProvider/authProvider";
 // import { SessionProvider } from "next-auth/react"
 function App({ Component, ...rest }) {
   const { store, props } = wrapper.useWrappedStore(rest);
@@ -32,13 +33,13 @@ function App({ Component, ...rest }) {
   }, []);
 
   return (
-    <>
+    <AuthProvider>
       <Provider store={store}>
         <ContentLoader loading={loading} />
         <Component {...pageProps} />
         <ToastContainer position="bottom-right" />
       </Provider>
-    </>
+    </AuthProvider>
   );
 }
 
