@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
-import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import SearchComp from 'components/components/searchComp';
 import { fetchPhotos } from 'components/redux/slices/imageListSlice';
 import Meta from 'components/components/MetaHeads';
+import SearchComp from 'components/components/searchComp';
 const Search = (props) => {
-    const router = useRouter();
+    const { query } = useRouter();
     const dispatch = useDispatch();
-    const { scroll_position_id, current_page } = useSelector(store => store.photos);
+    const { scroll_position_id, current_page, search } = useSelector(store => store.photos);
 
     const goToFilterData = (uniqueIdentifier) => {
         const element = document.getElementById(uniqueIdentifier);
@@ -17,13 +16,13 @@ const Search = (props) => {
 
 
     useEffect(() => {
-        dispatch(fetchPhotos(current_page)).then(() => {
+        dispatch(fetchPhotos(search || query.search)).then(() => {
             if (scroll_position_id) {
                 goToFilterData(scroll_position_id)
             }
         })
         //eslint-disable-next-line
-    }, [current_page]);
+    }, [current_page, search, query.search]);
 
     return (
         <>

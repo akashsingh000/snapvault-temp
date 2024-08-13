@@ -7,8 +7,8 @@ const ImageWrap = styled.span`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: ${props => props.width}px;
-  height: ${props => props.height}px;
+  width: 100%;
+  height:100%;
   & > div {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 5px;
@@ -18,7 +18,7 @@ const ImageWrap = styled.span`
 const PostImage = ({ alt, src, width, height, h, pos }) => {
 
   return (
-    <ImageWrap {...{ width, height }}>
+    <ImageWrap>
       <Image
         alt={alt}
         src={src}

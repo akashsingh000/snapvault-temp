@@ -47,7 +47,7 @@ const Thumbnail = (props) => {
 
                     <Image
                         alt={img.title}
-                        src={img.url}
+                        src={img.thumbnail_path}
                         width={0}
                         height={0}
                         quality={70}
@@ -61,10 +61,10 @@ const Thumbnail = (props) => {
                 </div>
             </Link>
             {hover && <div className={`top-[20px] px-[20px] flex items-center justify-between w-full absolute`}>
-                <button className='flex z-[-1] left-[20px] rounded-[88px] items-center gap-[4px] bg-[#FFFFFF4D]  px-[12px] py-[8px]'>
+                {img?.type && <button className='flex z-[-1] left-[20px] rounded-[88px] items-center gap-[4px] bg-[#FFFFFF4D]  px-[12px] py-[8px]'>
                     <PostImage alt="Photos-Icon" src={PhotosIcon} width={20} height={20} />
-                    <div className='text-white font-sans leading-[22px] text-[16px] font-medium'>Photos</div>
-                </button>
+                    <div className='text-white font-sans leading-[22px] text-[16px] font-medium'>{img?.type}</div>
+                </button>}
                 <button onClick={handleLike} className='z-[1] top-[20px] right-[20px] rounded-[88px] items-center gap-[4px] '>
                     <LikeIcon color={like == true ? "#00000080" : "#E32124"} />
                 </button>
@@ -74,7 +74,7 @@ const Thumbnail = (props) => {
                     <div className='font-sans text-white font-semibold text-[18px] leading-[38px] left-[20px] w-[280px] truncate'>{img.title}</div>
                     <button onClick={() => {
                         dispatch(setPageLoading("loading"))
-                        downloadImage(img.url, namedRoute).then((data) => {
+                        downloadImage(img.download_path, namedRoute).then((data) => {
                             dispatch(setPageLoading("succeeded"));
                         })
                     }} className='flex max-w-[141px] w-full items-center  gap-[8px] bg-primary rounded-[88px] px-[20px] py-[12px]'>

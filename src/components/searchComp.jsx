@@ -17,7 +17,7 @@ import LoginModal from './loginModal';
 import { useSession } from 'next-auth/react';
 const SearchComp = (props) => {
     const dispatch = useDispatch();
-    const { photos, status } = useSelector(store => store.photos);
+    const { photos: { data, image_type_count }, status } = useSelector(store => store.photos);
     const [isOpen, setIsOpen] = useState(false);
     const sessionStatus = useSession()
     const router = useRouter();
@@ -90,17 +90,17 @@ const SearchComp = (props) => {
                 <div className='flex items-center gap-[20px] pt-[30px]'>
                     <div className='flex items-center gap-[4px]'>
                         <PostImage alt="Photos-Icon" src={PhotosIcon} width={20} height={20} />
-                        <div className='font-sans font-medium text-[#666666] text-[16px] leading-[19.2px]'>24,900 Photos</div>
+                        {image_type_count?.photo > 0 && <div className='font-sans font-medium text-[#666666] text-nowrap text-[16px] leading-[19.2px]'>{image_type_count?.photo} {image_type_count?.photo > 1 ? "Photos" : "Photo"}</div>}
                     </div>
-                    <div className='flex items-center gap-[4px]'>
+                    {image_type_count?.vector > 0 && <div className='flex items-center gap-[4px]'>
                         <PostImage alt="Vector-Icon" src={VectorIcon} width={20} height={20} />
-                        <div className='font-sans font-medium text-[#666666] text-[16px] leading-[19.2px]'>300 Vectors</div>
-                    </div>
+                        <div className='font-sans font-medium text-[#666666] text-[16px] leading-[19.2px] text-nowrap'>{image_type_count?.vector} {image_type_count?.vector > 1 ? "Vectors" : "Vectors"}</div>
+                    </div>}
                 </div>
                 <div className='pt-[30px] border-3'>
                     <ContentLoader loading={status === "loading"} />
                     <div className="grid lg:grid-cols-3 gap-[32px] md:grid-cols-2 m-auto w-full sm:grid-cols-1">
-                        {photos.map((img, index) => {
+                        {data?.map((img, index) => {
                             return (
                                 <Thumbnail key={img.id} {...{ index, img, dispatch, setPageLoading, downloadImage, sessionStatus, onOpen }} />
                             )
@@ -111,7 +111,7 @@ const SearchComp = (props) => {
             </div>
             <Pagiantion {...{ onPagePlus, onPageMinus, currentPage, pageInput, setCurrentPage }} />
             <LoginModal {...{ isOpen, onClose }} />
-        </HeaderLayout >
+        </HeaderLayout>
     )
 }
 

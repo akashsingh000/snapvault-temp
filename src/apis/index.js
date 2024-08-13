@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiUrl = "https://jsonplaceholder.typicode.com/"
+const apiUrl = "http://52.0.205.252:2004/api/"
 
 export const axiosInstance = axios.create({
     baseURL: apiUrl,

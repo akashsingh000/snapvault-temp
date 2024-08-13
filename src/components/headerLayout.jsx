@@ -7,45 +7,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import PostImage from './ui-elements/PostImage';
 import Logo from "../assets/images/sv-logo.png";
-import Cancel from "../assets/images/cancel.svg"
+import Cancel from "../assets/images/cancel.svg";
 import SearchIcon from "../assets/images/searchIcon.svg";
-import SearchGrey from "../assets/images/searchGrey.svg";
 import LoginIcon from "../assets/images/loginIcon.svg";
 import ArrowIcon from "../assets/images/arrowIcon.svg";
 import useResponsive from 'components/hooks/useResponsive';
-import { scroll_position, setCategory } from 'components/redux/slices/imageListSlice';
+import { scroll_position, setCategory, setSearch } from 'components/redux/slices/imageListSlice';
 import "../styles/header.module.css";
-import useOutsideClick from 'components/hooks/useOutsideClick';
-import useAsyncState from 'components/hooks/asyncUseState';
 const HeaderLayout = ({ children, showSearch }) => {
-    const [search, setSearch] = useAsyncState("");
-    const { data: status } = useSession();
-    const { category } = useSelector(store => store.photos);
-    const [showDropdown, setShowDropdown] = useState(false)
-    const [arrowDisable, setArrowDisable] = useState(true);
-    const searchArr = typeof window !== "undefined" && JSON.parse(localStorage.getItem("search_history"))
-    const elementRef = useRef(null);
-    const impactRef = useRef();
-    useOutsideClick(impactRef, () => setShowDropdown(false));
     const router = useRouter();
+    // const [search, setSearch] = useAsyncState("");
+    const { data: status } = useSession();
+    const { category, search } = useSelector(store => store.photos);
+    const [text, setText] = useState("")
+    // const [showDropdown, setShowDropdown] = useState(false)
+    const [arrowDisable, setArrowDisable] = useState(true);
+    // const searchArr = typeof window !== "undefined" && JSON.parse(localStorage.getItem("search_history"))
+    const elementRef = useRef(null);
+    // const impactRef = useRef();
+    // useOutsideClick(impactRef, () => setShowDropdown(false));
     const dispatch = useDispatch()
     const { isMobile, isTablet } = useResponsive()
     const handleSubmit = (e) => {
         e.preventDefault();
-        const withoutSpaces = search.replace(/^\s+/g, '')
+        const withoutSpaces = text.replace(/^\s+/g, '')
         if (withoutSpaces.length > 0) {
-            const search_history = localStorage.getItem("search_history")
-            router.push(`/search/${withoutSpaces}`).then(() => {
-                if (typeof window !== "undefined") {
-                    if (search_history) {
-                        const obj = JSON.parse(search_history)
-                        localStorage.setItem("search_history", JSON.stringify([...obj, withoutSpaces]));
-                    } else {
-                        localStorage.setItem("search_history", JSON.stringify([withoutSpaces]))
-                    }
-
-                }
-            });
+            dispatch(setSearch(withoutSpaces))
             dispatch(scroll_position(null))
         }
     };
@@ -80,16 +67,16 @@ const HeaderLayout = ({ children, showSearch }) => {
                             && <div className='relative'>
                                 <form onSubmit={handleSubmit} className="lg:w-[760px]  lg:h-[56px] flex items-center justify-between  sm:w-[100%] md:w-[100%] py-[8px] pl-[30px] px-[10px] rounded-[50px] bg-white border-2 border-[#0000001A] ">
                                     <div className='relative w-full'>
-                                        {search.length > 0 && <button type="button" onClick={() => { setSearch("") }} className="absolute right-[16px]">
+                                        {text.length > 0 && <button type="button" onClick={() => { dispatch(setSearch("")); setText("") }} className="absolute right-[16px]">
                                             <PostImage alt="cancel" src={Cancel} width={20} height={20} />
                                         </button>}
-                                        <input onFocus={() => { setShowDropdown(true) }} value={search} onChange={(e) => setSearch(e.target.value)} className="placeholder:text-pHColor w-full font-inter placeholder:font-inter font-medium placeholder:text-[16px] outline-none sm:w-full" placeholder={isMobile ? "Search" : "Search images and vectors"} />
+                                        <input value={text} onChange={(e) => setText(e.target.value)} className="placeholder:text-pHColor w-full font-inter placeholder:font-inter font-medium placeholder:text-[16px] outline-none sm:w-full" placeholder={isMobile ? "Search" : "Search images and vectors"} />
                                     </div>
                                     <button type='submit' className="bg-primary p-[12px] text-white flex items-center rounded-[38px] gap-[8px]">
                                         <PostImage alt="search-icon" src={SearchIcon} width={16} height={16} />
                                     </button>
                                 </form>
-                                {showDropdown && searchArr.length > 0 && <div className='w-full absolute pt-[16px]'>
+                                {/* {showDropdown && searchArr.length > 0 && <div className='w-full absolute pt-[16px]'>
                                     <div ref={impactRef} className='border-[1px] border-boundary rounded-[8px] p-[16px] bg-white '>
                                         <div className='flex items-center justify-between'>
                                             <div className='text-[20px] font-semibold font-sans leading-[28px] text-black'>Recent Searches</div>
@@ -119,7 +106,7 @@ const HeaderLayout = ({ children, showSearch }) => {
                                             </div>
                                         </div>
                                     </div>
-                                </div>}
+                                </div>} */}
                             </div>
                         }
                         {status !== "authenticated"
