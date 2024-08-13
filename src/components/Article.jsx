@@ -13,6 +13,7 @@ import useResponsive from 'components/hooks/useResponsive'
 import { setPageLoading } from 'components/redux/slices/imageListSlice'
 import { ContentLoader } from './ui-elements/dataLoader'
 import LoginModal from './loginModal'
+import Link from 'next/link'
 
 const Post = ({ data }) => {
   const router = useRouter();
@@ -64,12 +65,12 @@ const Post = ({ data }) => {
             <LikeIcon color={like !== true ? "#00000080" : "#E32124"} />
           </button>
         </div>
-        <div className='lg:w-[141px] sm:w-full md:w-full'>
+        <div className='lg:w-[141px] sm:w-full md:w-[141px]'>
           <button onClick={() => {
             downloadImage(data.download_path, data.title.replace(/ /g, "-")).then((data) => {
               dispatch(setPageLoading("succeeded"));
             })
-          }} className='flex items-center gap-[8px] bg-primary justify-center  lg:mt-0 sm:mt-[16px] rounded-[88px] px-[20px] py-[12px]'>
+          }} className='flex items-center gap-[8px] w-full bg-primary justify-center  lg:mt-0 sm:mt-[16px] md:mt-0 rounded-[88px] px-[20px] py-[12px]'>
             <div className='w-[20px] h-[20px]'>
               <PostImage alt="download_icon" src={Download} width={20} height={20} />
             </div>
@@ -93,9 +94,9 @@ const Post = ({ data }) => {
             {
               data?.tags?.map((item, index) => {
                 return (
-                  <button key={index} className='border-0 capitalize bg-[#0000000D] text-black text-[16px] leading-[19.2px] font-normal rounded-[50px] py-[10px] px-[20px]'>
+                  <Link href={`/search/${item}`} key={index} className='border-0 capitalize bg-[#0000000D] text-black text-[16px] leading-[19.2px] font-normal rounded-[50px] py-[10px] px-[20px]'>
                     {item}
-                  </button>
+                  </Link>
                 )
               })
             }
