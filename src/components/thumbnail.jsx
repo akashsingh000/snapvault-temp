@@ -61,10 +61,12 @@ const Thumbnail = (props) => {
                 </div>
             </Link>
             {hover && <div className={`top-[20px] px-[20px] flex items-center justify-between w-full absolute`}>
-                {img?.type && <button className='flex z-[-1] left-[20px] rounded-[88px] items-center gap-[4px] bg-[#FFFFFF4D]  px-[12px] py-[8px]'>
-                    <PostImage alt="Photos-Icon" src={PhotosIcon} width={20} height={20} />
-                    <div className='text-white font-sans leading-[22px] text-[16px] font-medium'>{img?.type}</div>
-                </button>}
+                <div>
+                    {img?.type && <button className='flex z-[-1] left-[20px] rounded-[88px] items-center gap-[4px] bg-[#FFFFFF4D]  px-[12px] py-[8px]'>
+                        <PostImage alt="Photos-Icon" src={PhotosIcon} width={20} height={20} />
+                        <div className='text-white font-sans leading-[22px] text-[16px] font-medium'>{img?.type}</div>
+                    </button>}
+                </div>
                 <button onClick={handleLike} className='z-[1] top-[20px] right-[20px] rounded-[88px] items-center gap-[4px] '>
                     <LikeIcon color={like == true ? "#00000080" : "#E32124"} />
                 </button>
