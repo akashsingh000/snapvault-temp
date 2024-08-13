@@ -39,7 +39,7 @@ const ArticlePage = (props) => {
             overlayClassName={styles.Overlay}
 
           >
-            <button onClick={() => router.back()} className='fixed lg:right-[-71px] sm:right-[16px] p-[12px] rounded-[100px] top-[15px] bg-[#000000b8]'>
+            <button onClick={() => router.back()} className='fixed lg:right-[-71px] md:right-[16px] sm:right-[16px] p-[12px] rounded-[100px] top-[15px] bg-[#000000b8]'>
               <PostImage src={CloseIcon} alt="close" width={isMobileOrTablet ? 16 : 32} height={isMobileOrTablet ? 16 : 32} />
             </button>
             <Article pathname={router.pathname} data={photo} />

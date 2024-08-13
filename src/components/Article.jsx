@@ -70,7 +70,7 @@ const Post = ({ data }) => {
             downloadImage(data.download_path, data.title.replace(/ /g, "-")).then((data) => {
               dispatch(setPageLoading("succeeded"));
             })
-          }} className='flex items-center gap-[8px] w-full bg-primary justify-center  lg:mt-0 sm:mt-[16px] md:mt-0 rounded-[88px] px-[20px] py-[12px]'>
+          }} className='flex items-center gap-[8px] w-full bg-primary justify-center rounded-[88px] px-[20px] py-[12px]'>
             <div className='w-[20px] h-[20px]'>
               <PostImage alt="download_icon" src={Download} width={20} height={20} />
             </div>

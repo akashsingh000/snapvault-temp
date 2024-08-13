@@ -53,7 +53,7 @@ const Thumbnail = (props) => {
                         quality={70}
                         priority={true}
                         sizes="100vw"
-                        className={`absolute  max-w-[496px] w-[100%] h-[330px] z-[-1] object-cover`}
+                        className={`absolute md:max-w-[496px] sm:w-full lg:max-w-[496px] w-[100%] h-[330px] z-[-1] object-cover`}
                     />
                     <Box className={`border-3 ${hover === true ? "opacity-100" : "opacity-0"} transition-opacity 1s ease-in-out z-[10] rounded-[12px] w-[100%] h-[100%] absolute text-white`}>
 
