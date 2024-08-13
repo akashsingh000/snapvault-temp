@@ -18,6 +18,10 @@ const Meta = ({ title, description, keywords, image }) => {
                     content={image ? image : "/sv-logo.png"}
                 />
                 <meta
+                    http-equiv="Content-Security-Policy"
+                    content="upgrade-insecure-requests"
+                />
+                <meta
                     property="og:description"
                     name="description"
                     content={description}
