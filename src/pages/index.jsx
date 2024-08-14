@@ -1,6 +1,6 @@
 
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import styles from "../styles/home.module.css";
 import Cancel from "../assets/images/cancel.svg"
@@ -14,6 +14,7 @@ import Meta from "components/components/MetaHeads";
 
 export default function Home() {
   const { main } = styles;
+  const ref = useRef()
   const { isMobile } = useResponsive()
   const [search, setSearch] = useState("");
   const router = useRouter();
@@ -39,7 +40,9 @@ export default function Home() {
     }
   }
 
-
+  useEffect(() => {
+    ref.current?.focus()
+  }, [])
 
   // useEffect(() => {
   //   axios.post("/api/hello", { image: "https://images.pexels.com/photos/9551192/pexels-photo-9551192.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }).then((data) => {
@@ -73,7 +76,7 @@ export default function Home() {
                     {search.length > 0 && <button type="button" onClick={() => { setSearch("") }} className="absolute right-[16px]">
                       <PostImage alt="cancel" src={Cancel} width={20} height={20} />
                     </button>}
-                    <input value={search} onChange={(e) => setSearch(e.target.value)} className="placeholder:text-pHColor w-full font-inter placeholder:font-inter font-normal leading-[19.36px] placeholder:text-[16px] outline-none lg:w-full" placeholder={isMobile ? "Search images" : "Search images and vectors"} />
+                    <input ref={ref} value={search} onChange={(e) => setSearch(e.target.value)} className="placeholder:text-pHColor w-full font-inter placeholder:font-inter font-normal leading-[19.36px] placeholder:text-[16px] outline-none lg:w-full" placeholder={isMobile ? "Search images" : "Search images and vectors"} />
                   </div>
 
                   <button type="submit" className="bg-primary px-[16px] py-[12px] h-[44px] max-w-[113px] w-full text-white flex items-center rounded-[38px] gap-[8px]">
@@ -81,7 +84,6 @@ export default function Home() {
                     <div className="text-white text-[16px] font-normal font-inter">Search</div>
                   </button>
                 </form>
-
               </div>
             </div>
           </div>

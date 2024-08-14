@@ -19,7 +19,9 @@ const ArticlePage = (props) => {
   const router = useRouter();
   const { modal } = router.query;
   const keywords = props.data && props.data?.title.split(" ").join(",");
-  const { isMobileOrTablet } = useResponsive()
+  const { isMobileOrTablet } = useResponsive();
+
+
 
   return (
     <>
