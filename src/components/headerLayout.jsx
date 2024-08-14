@@ -35,6 +35,9 @@ const HeaderLayout = ({ children, showSearch }) => {
             dispatch(setSearch(withoutSpaces))
             dispatch(scroll_position(null))
         }
+        if (router.pathname !== 'search/[search]') {
+            router.push(`/search/${withoutSpaces}`)
+        }
     };
 
 

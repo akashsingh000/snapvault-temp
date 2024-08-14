@@ -38,7 +38,7 @@ const Pagiantion = (props) => {
                         </div>
                     </div>
                 </div>
-                <button disabled={current_page >= pagination?.total_pages} onClick={onPagePlus} className='bg-[#0000000D] p-[8px] rounded-[100px]'>
+                <button disabled={current_page >= pagination?.total_pages} onClick={onPagePlus} className='bg-[#0000000D] disabled:opacity-50 p-[8px] rounded-[100px]'>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_23_383)">
                             <path d="M9 6L15 12L9 18" stroke="#666666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
