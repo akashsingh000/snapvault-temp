@@ -9,8 +9,6 @@ const Pagiantion = (props) => {
     const { current_page } = useSelector(store => store.photos);
     const { onPageMinus, onPagePlus, pagination } = props
 
-
-
     return (
         <div className='w-full py-[102px]'>
             <div className='m-auto w-[261px] gap-[50px] flex items-center justify-between'>

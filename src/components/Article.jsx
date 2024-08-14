@@ -81,7 +81,7 @@ const Post = ({ data }) => {
       <div className={`mt-[37px] rounded-[10px] ${isMobileOrTablet ? "h-[auto]" : "h-[968px]"} w-full overflow-hidden relative`}>
         <button className='flex absolute top-[30px] left-[30px] rounded-[88px] items-center gap-[4px] bg-[#FFFFFF4D] px-[12px] py-[8px]'>
           <PostImage alt="photo-icon" src={PhotosIcon} width={20} height={20} />
-          <div className='text-white font-sans leading-[22px] text-[16px] font-medium capitalize'>{data?.type}</div>
+          <div className='text-white font-sans leading-[22px] text-[16px] font-medium capitalize'>{data?.source_name}</div>
         </button>
         <div>
           <PostImage alt={data?.title} src={data?.download_path} width={query.modal === "true" ? 1452 : 1288} height={query.modal === "true" ? 968 : 858} />
