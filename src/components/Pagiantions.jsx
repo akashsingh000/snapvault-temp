@@ -7,14 +7,14 @@ const Pagiantion = (props) => {
     const { query } = router;
     const dispatch = useDispatch();
     const { current_page } = useSelector(store => store.photos);
-    const { onPageMinus, onPagePlus } = props
+    const { onPageMinus, onPagePlus, pagination } = props
 
 
 
     return (
         <div className='w-full py-[102px]'>
             <div className='m-auto w-[261px] gap-[50px] flex items-center justify-between'>
-                <button disabled={current_page < 1} onClick={onPageMinus} className={`bg-[#0000000D] ${query.page < 1 && "pointer-events-none"}  p-[8px] disabled:opacity-50 rounded-[100px]`}>
+                <button disabled={current_page <= 1} onClick={onPageMinus} className={`bg-[#0000000D] ${query.page < 1 && "pointer-events-none"}  p-[8px] disabled:opacity-50 rounded-[100px]`}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_60_578)">
                             <path d="M15 6L9 12L15 18" stroke="#666666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -36,11 +36,11 @@ const Pagiantion = (props) => {
                             /
                         </div>
                         <div className='w-[38px]'>
-                            250
+                            {pagination?.total_pages}
                         </div>
                     </div>
                 </div>
-                <button onClick={onPagePlus} className='bg-[#0000000D] p-[8px] rounded-[100px]'>
+                <button disabled={current_page >= pagination?.total_pages} onClick={onPagePlus} className='bg-[#0000000D] p-[8px] rounded-[100px]'>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clipPath="url(#clip0_23_383)">
                             <path d="M9 6L15 12L9 18" stroke="#666666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

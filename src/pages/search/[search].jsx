@@ -16,7 +16,7 @@ const Search = (props) => {
 
 
     useEffect(() => {
-        dispatch(fetchPhotos(search || query.search)).then(() => {
+        dispatch(fetchPhotos({ query: search || query.search, page: current_page })).then(() => {
             if (scroll_position_id) {
                 goToFilterData(scroll_position_id)
             }

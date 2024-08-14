@@ -17,23 +17,23 @@ import LoginModal from './loginModal';
 import { useSession } from 'next-auth/react';
 const SearchComp = (props) => {
     const dispatch = useDispatch();
-    const { photos: { data, image_type_count }, status, search } = useSelector(store => store.photos);
+    const { photos: { data, image_type_count, pagination }, currentPage, status, search } = useSelector(store => store.photos);
     const [isOpen, setIsOpen] = useState(false);
     const sessionStatus = useSession()
     const router = useRouter();
-    const [currentPage, setCurrentPage] = useState(1);
+    const [tempCurrentPage, setTempCurrentPage] = useState(1);
 
     const onOpen = () => setIsOpen(true)
     const onClose = () => setIsOpen(false)
     const pageInput = (number) => {
-        setCurrentPage(number)
+        setTempCurrentPage(number)
     }
 
     const onPagePlus = () => {
         dispatch(increment())
     }
     const onPageMinus = () => {
-        if (currentPage > 0) {
+        if (tempCurrentPage > 0) {
             dispatch(decrement())
         }
     }
@@ -83,9 +83,9 @@ const SearchComp = (props) => {
             <div {...(router.pathname !== "/search/[search]" && { className: 'h-[calc(100vh-520px)] overflow-hidden' })}>
                 <div className='w-full flex sm:flex-wrap md:flex-wrap items-center justify-between'>
                     <div className='font-sans font-normal text-[24px] leading-[28.8px] text-[#666666]'>Showing result for {" "}<span className='text-[32px] text-black font-semibold leading-[38.4px]'>{search || router?.query.search}</span></div>
-                    <div className='max-w-[200px] w-full sm:flex-wrap sm:pt-[16px] md:pt-[16px] lg:pt-[0px]'>
+                    {/* <div className='max-w-[200px] w-full sm:flex-wrap sm:pt-[16px] md:pt-[16px] lg:pt-[0px]'>
                         <Select styles={reactStyles} options={options} placeholder="Select Category" />
-                    </div>
+                    </div> */}
                 </div>
                 <div className='flex items-center gap-[20px] pt-[30px]'>
                     <div className='flex items-center gap-[4px]'>
@@ -109,7 +109,7 @@ const SearchComp = (props) => {
                     </div>
                 </div>
             </div>
-            <Pagiantion {...{ onPagePlus, onPageMinus, currentPage, pageInput, setCurrentPage }} />
+            <Pagiantion {...{ onPagePlus, onPageMinus, pagination, currentPage: tempCurrentPage, pageInput, setCurrentPage: setTempCurrentPage }} />
             <LoginModal {...{ isOpen, onClose }} />
         </HeaderLayout>
     )

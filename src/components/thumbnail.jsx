@@ -62,13 +62,13 @@ const Thumbnail = (props) => {
             </Link>
             {hover && <div className={`top-[20px] px-[20px] flex items-center justify-between w-full absolute`}>
                 <div>
-                    {img?.type && <button className='flex z-[-1] left-[20px] rounded-[88px] items-center gap-[4px] bg-[#FFFFFF4D]  px-[12px] py-[8px]'>
+                    {img?.source_name && <button className='flex z-[-1] left-[20px] rounded-[88px] items-center gap-[4px] bg-[#FFFFFF4D]  px-[12px] py-[8px]'>
                         <PostImage alt="Photos-Icon" src={PhotosIcon} width={20} height={20} />
-                        <div className='text-white font-sans leading-[22px] text-[16px] font-medium'>{img?.type}</div>
+                        <div className='text-white font-sans leading-[22px] text-[16px] capitalize font-medium'>{img?.source_name}</div>
                     </button>}
                 </div>
                 <button onClick={handleLike} className='z-[1] top-[20px] right-[20px] rounded-[88px] items-center gap-[4px] '>
-                    <LikeIcon color={like == true ? "#00000080" : "#E32124"} />
+                    <LikeIcon color={like == true ? "#FFFFFF4D" : "#E32124"} />
                 </button>
             </div>}
             <div className={`absolute ${hover === true ? "opacity-100" : "opacity-0"} bottom-0 w-[100%]`}>
@@ -94,6 +94,6 @@ export default Thumbnail
 
 
 const Box = styled.div`
-                background-image: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
-                z-index: -1;
-                `
+background-image: linear-gradient(0deg, #000000 0%, rgba(0, 0, 0, 0) 100%);
+z-index: -1;
+`

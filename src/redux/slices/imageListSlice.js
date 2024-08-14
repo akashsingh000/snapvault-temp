@@ -3,8 +3,9 @@ import { axiosInstance } from 'components/apis';
 
 export const fetchPhotos = createAsyncThunk(
     'photos/fetchPhotos',
-    async (query) => {
-        const response = await axiosInstance(`images?query=${query}`);
+    async (params) => {
+        const { query, page } = params
+        const response = await axiosInstance(`images?query=${query}&page=${page}`);
         return response.data;
     },
 );
@@ -13,7 +14,7 @@ const initialState = {
     photos: [],
     status: 'idle',
     error: null,
-    current_page: 0,
+    current_page: 1,
     scroll_position_id: null,
     category: "",
     pageLoading: false,
@@ -26,11 +27,11 @@ const photosSlice = createSlice({
     initialState,
     reducers: {
         increment: (state) => {
-            state.current_page += 20
+            state.current_page += 1
         },
         decrement: (state) => {
             if (state.current_page > 0) {
-                state.current_page -= 20
+                state.current_page -= 1
             }
         },
         incrementByAmount: (state, action) => {

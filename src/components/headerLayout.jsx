@@ -109,7 +109,8 @@ const HeaderLayout = ({ children, showSearch }) => {
                                 </div>} */}
                             </div>
                         }
-                        {status !== "authenticated"
+                        <div></div>
+                        {/* {status !== "authenticated"
                             ? <button onClick={() => { signIn("google") }} className='border-1 flex flex-nowrap border-b border-solid border-[#E32124] pb-[4px]  items-center gap-[4px]'>
                                 <div className='sm:hidden lg:block md:block text-[#E32124] font-sans text-[18px] font-medium leading-[21.6px]'>Login</div>
                                 <PostImage alt="login-icon" src={LoginIcon} width={24} height={24} />
@@ -117,7 +118,7 @@ const HeaderLayout = ({ children, showSearch }) => {
                             : <button onClick={() => { signOut({ redirect: false }).then(() => router.push("/")); }} className='border-1 flex flex-nowrap border-b border-solid border-[#E32124] pb-[4px]  items-center gap-[4px]'>
                                 <div className='sm:hidden lg:block md:block text-[#E32124] font-sans text-[18px] font-medium leading-[21.6px]'>Logout</div>
                                 <PostImage alt="login-icon" src={LoginIcon} width={24} height={24} />
-                            </button>}
+                            </button>} */}
                     </div>
                 </div>
                 {showSearch && <div className='py-[30px]'>
