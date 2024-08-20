@@ -20,7 +20,11 @@ const initialState = {
 const photoByIdSlice = createSlice({
     name: 'photoById',
     initialState,
-    reducers: {},
+    reducers: {
+        setLoading: (state, action) => {
+            state.status = action.payload
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchPhotoById.pending, (state) => {
@@ -37,5 +41,6 @@ const photoByIdSlice = createSlice({
     },
 });
 
+export const { setLoading } = photoByIdSlice.actions
 
 export const photoByIdReducer = photoByIdSlice.reducer;

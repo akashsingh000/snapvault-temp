@@ -10,10 +10,10 @@ import { useSession } from 'next-auth/react'
 import PhotosIcon from "../assets/images/photosIconWhite.svg"
 import { LikeIcon } from './ui-elements/svgs'
 import useResponsive from 'components/hooks/useResponsive'
-import { setPageLoading } from 'components/redux/slices/imageListSlice'
 import { ContentLoader } from './ui-elements/dataLoader'
 import LoginModal from './loginModal'
 import Link from 'next/link'
+import { setLoading } from 'components/redux/slices/imageByIdSlice'
 
 const Post = ({ data }) => {
   const router = useRouter();
@@ -22,14 +22,16 @@ const Post = ({ data }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { query } = router;
   const { isMobileOrTablet } = useResponsive();
-  const { status } = useSelector(store => store.photos);
+  const { status } = useSelector(store => store.photoById);
   const dispatch = useDispatch();
 
   const onOpen = () => setIsOpen(true)
   const onClose = () => setIsOpen(false)
 
+
   const downloadImage = useCallback(async (url, filename) => {
     if (url && filename) {
+      dispatch(setLoading("loading"))
       await axios.post("/api/image-download", { image: url, filename }).then((data) => {
         if (data.status === 200) {
           const downloadLink = document.createElement("a");
@@ -39,9 +41,10 @@ const Post = ({ data }) => {
           downloadLink.click();
           document.body.removeChild(downloadLink);
           toast.success("Image downloaded successfully.")
+          dispatch(setLoading("succeeded"))
         }
-
       }).catch((err) => {
+        dispatch(setLoading("failed"))
         toast.error(err.message)
       })
     }
@@ -67,9 +70,7 @@ const Post = ({ data }) => {
         </div>
         <div className='lg:w-[141px] sm:w-full md:w-[141px]'>
           <button onClick={() => {
-            downloadImage(data.download_path, data.title.replace(/ /g, "-")).then((data) => {
-              dispatch(setPageLoading("succeeded"));
-            })
+            downloadImage(data.download_path, data.title.replace(/ /g, "-"))
           }} className='flex items-center gap-[8px] w-full bg-primary justify-center rounded-[88px] px-[20px] py-[12px]'>
             <div className='w-[20px] h-[20px]'>
               <PostImage alt="download_icon" src={Download} width={20} height={20} />
