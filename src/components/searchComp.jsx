@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
-import Select from "react-select"
+import { useSession } from 'next-auth/react';
 import HeaderLayout from 'components/components/headerLayout';
 import PostImage from 'components/components/ui-elements/PostImage';
 import PhotosIcon from "../assets/images/photosIcon.svg";
@@ -12,9 +12,8 @@ import Pagiantion from 'components/components/Pagiantions';
 import { decrement, increment, setPageLoading } from 'components/redux/slices/imageListSlice';
 import { ContentLoader } from './ui-elements/dataLoader';
 import Thumbnail from './thumbnail';
-import { reactStyles } from 'components/helpers';
 import LoginModal from './loginModal';
-import { useSession } from 'next-auth/react';
+
 const SearchComp = (props) => {
     const dispatch = useDispatch();
     const { photos: { data, image_type_count, pagination }, currentPage, status, search } = useSelector(store => store.photos);

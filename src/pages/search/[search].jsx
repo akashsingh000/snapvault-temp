@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { fetchPhotos } from 'components/redux/slices/imageListSlice';
 import Meta from 'components/components/MetaHeads';
 import SearchComp from 'components/components/searchComp';
+
 const Search = (props) => {
     const { query } = useRouter();
     const dispatch = useDispatch();

@@ -4,16 +4,16 @@ import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import PostImage from './ui-elements/PostImage';
 import Logo from "../assets/images/sv-logo.png";
 import Cancel from "../assets/images/cancel.svg";
 import SearchIcon from "../assets/images/searchIcon.svg";
-import LoginIcon from "../assets/images/loginIcon.svg";
 import ArrowIcon from "../assets/images/arrowIcon.svg";
 import useResponsive from 'components/hooks/useResponsive';
 import { scroll_position, setCategory, setSearch } from 'components/redux/slices/imageListSlice';
 import "../styles/header.module.css";
+
 const HeaderLayout = ({ children, showSearch }) => {
     const router = useRouter();
     // const [search, setSearch] = useAsyncState("");
